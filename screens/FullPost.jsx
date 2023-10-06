@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { Loading } from '../components/Post';
+import { Loading } from '../components/Loading';
 
 const PostImage = styled.Image`
   border-radius: 10px;
@@ -21,15 +21,12 @@ export const FullPostScreen = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const { id, title } = route.params;
 
-  console.log(route)
-  console.log(navigation)
-
   useEffect(() => {
     navigation.setOptions({
       title,
     });
     axios
-      .get('https://651e852544a3a8aa4768835c.mockapi.io/articles/1' + id)
+      .get('https://651e852544a3a8aa4768835c.mockapi.io/articles/' + id)
       .then(({ data }) => {
         setData(data);
       })
@@ -40,24 +37,22 @@ export const FullPostScreen = ({ route, navigation }) => {
       .finally(() => {
         setIsLoading(false)
       })
-
   }, [])
 
   if (isLoading) {
     return (
-      <View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Loading />
       </View>
     )
   }
 
   return (
-    <View style={{ padding: 10, marginTop: 30 }}>
+    <View style={{ padding: 15 }}>
       <PostImage source={{ uri: data.imageUrl }}/>
       <PostText>
         {data.text}
       </PostText>
     </View>
-
   )
 }

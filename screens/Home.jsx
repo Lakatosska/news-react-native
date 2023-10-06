@@ -1,19 +1,13 @@
 import axios from 'axios';
-import { StatusBar } from 'expo-status-bar';
 import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  Image, 
+  View,  
   Alert, 
   FlatList, 
-  ActivityIndicator,
   RefreshControl,
   TouchableOpacity
 } from 'react-native';
 import { Post } from '../components/Post';
 import { useState, useEffect } from 'react';
-import styled from 'styled-components/native';
 import { Loading } from '../components/Loading';
 
 export const HomeScreen = ({ navigation }) => {
@@ -48,7 +42,6 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <View>
-      <ActivityIndicator size="large" color="#0000ff" animating={isLoading} />
       <FlatList
         refreshControl={
           <RefreshControl 
@@ -57,15 +50,16 @@ export const HomeScreen = ({ navigation }) => {
           />
         }
         data={items}
-        renderItem={({ item }) => 
-          <TouchableOpacity onPress={() => navigation.navigate('FullPost', { id: item.id, title: item.title })}>
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('FullPost', { id: item.id, title: item.title })}>
             <Post 
               title={item.title} 
               imageUrl={item.imageUrl} 
               createdAt={item.createdAt} 
             />
           </TouchableOpacity>
-        }
+        )}
       />
     </View>
   );
